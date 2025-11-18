@@ -52,7 +52,7 @@ INSERT INTO `achievements` (`id`, `user_id`, `category`, `title`, `description`,
 (10, 4, 'certificate', 'LPI Linux Essentials', '通過 LPI Linux Essentials 認證考試，掌握基本的 Linux 操作和指令。', 'pending', NULL, NULL, NULL, '2025-11-17 17:08:47', '2025-11-17 17:08:47'),
 (12, 2, 'language', 'PHP', '熟悉 PHP 基礎語法、Session、表單處理與資料庫操作', 'approved', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
 (13, 2, 'language', 'MySQL', '熟練使用 MySQL 進行資料庫設計與 SQL 查詢', 'approved', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
-(14, 2, 'subject', '網頁設計', '能夠��用 HTML、CSS、JavaScript 建立響應式網頁', 'approved', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
+(14, 2, 'subject', '網頁設計', '能夠用 HTML、CSS、JavaScript 建立響應式網頁', 'approved', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
 (15, 2, 'competition', '程式設計競賽', '參加校內程式設計競賽獲得第三名', 'pending', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
 (16, 3, 'language', 'Python', '學習 Python 基礎語法與資料處理', 'pending', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54'),
 (17, 3, 'certificate', 'TQC+ 網頁設計認證', '取得 TQC+ 網頁設計專業級認證', 'approved', NULL, NULL, NULL, '2025-11-17 17:25:54', '2025-11-17 17:25:54');

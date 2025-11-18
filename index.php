@@ -75,6 +75,7 @@ $recent = $stmt->fetchAll();
             <tbody>
                 <?php foreach ($recent as $item): ?>
                 <tr>
+                    <!-- 防XXS攻擊，htmlspecialchars把「有特殊意義的 HTML 符號」轉成「純文字顯示」 -->
                     <td><?php echo htmlspecialchars($item['full_name']); ?></td>
                     <td>
                         <?php
@@ -88,6 +89,7 @@ $recent = $stmt->fetchAll();
                         ?>
                     </td>
                     <td><?php echo htmlspecialchars($item['title']); ?></td>
+                    <!-- strtotime 將資料庫時間字串轉換為時間戳 -->
                     <td><?php echo date('Y-m-d', strtotime($item['updated_at'])); ?></td>
                 </tr>
                 <?php endforeach; ?>

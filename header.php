@@ -8,18 +8,21 @@
         * {
             margin: 0;
             padding: 0;
+            /* width / height 會包含 padding 和 border 在內一起算 */
             box-sizing: border-box;
         }
         
         body {
+            /* 字型備用清單，瀏覽器會「照順序」找能用的字體 */
             font-family: 'Microsoft JhengHei', 'PingFang TC', 'Segoe UI', Arial, sans-serif;
+            /* 行高 */
             line-height: 1.6;
             /* 黑金配色背景 */
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
             color: #e0e0e0;
             min-height: 100vh;
         }
-        
+        /* 中心容器 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -29,6 +32,7 @@
         /* 重新設計標題與導覽列為一體化設計 */
         header {
             background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            /* box-shadow(矩形): offset-x(水平位移) offset-y(垂直位移) blur-radius(模糊半徑) color; */
             box-shadow: 0 4px 30px rgba(212, 175, 55, 0.15);
             position: sticky;
             top: 0;
@@ -38,8 +42,10 @@
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
+            /* 把這個元素變成 flex 容器，它的「直接子元素」自動變成一排，ex:左右兩邊各一個區塊那種版面*/
             display: flex;
             align-items: center;
+            /* 第一個子元素：靠最左邊，最後一個子元素：靠最右邊，中間的子元素：把剩下空間平均分配在「元素與元素之間」*/
             justify-content: space-between;
             padding: 1.2rem 2rem;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
@@ -48,11 +54,13 @@
         .logo-section {
             display: flex;
             align-items: center;
+            /* flex 或 grid 的子元素彼此之間保持 15px 的間距 */
             gap: 15px;
         }
         
         .logo-icon {
             font-size: 2.2rem;
+            /* drop-shadow(圖形不透明部分的輪廓)(offset-x offset-y blur-radius color) */
             filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
         }
         
@@ -60,9 +68,12 @@
             font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ffd700 0%, #d4af37 50%, #ffd700 100%);
+            /* 讓「背景」只出現在文字本身上，而不是整個盒子 */
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            /* 把文字本來的顏色變成透明 */
+            -webkit-text-fill-color: transparent;
+            /* 字距 */
             letter-spacing: 1px;
         }
         
@@ -81,8 +92,10 @@
         
         nav ul li a {
             color: #b8975a;
+            /* 去底線 */
             text-decoration: none;
             padding: 10px 20px;
+            /* 把元素變成區塊元素 */
             display: block;
             font-weight: 500;
             font-size: 15px;
@@ -90,13 +103,15 @@
             border-radius: 6px;
             position: relative;
         }
-        
+        /* 背景 + 文字變亮 */
         nav ul li a:hover {
             background: rgba(212, 175, 55, 0.15);
             color: #ffd700;
         }
         
         nav ul li a::after {
+            /* ::before ::after 這兩個偽元素 預設是不存在的只是一個「可以生成的虛擬盒子」
+            只有加了content: '';，瀏覽器才會讓它變成真正的元素盒子（box），可以設定CSS*/
             content: '';
             position: absolute;
             bottom: 5px;
@@ -126,6 +141,7 @@
         /* 響應式：小螢幕時改為堆疊 */
         @media (max-width: 768px) {
             .header-content {
+                /* 原本如果是左右排（row），小螢幕就變成上下堆疊 */
                 flex-direction: column;
                 gap: 15px;
                 padding: 1rem;
@@ -136,6 +152,7 @@
             }
             
             nav ul {
+                /* 允許選單項目「自動換行」 */
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 3px;
@@ -146,8 +163,7 @@
                 font-size: 13px;
             }
         }
-        /* </CHANGE> */
-        
+        /* 訊息框樣式 */
         .alert {
             padding: 15px 20px;
             margin-bottom: 20px;
@@ -168,7 +184,7 @@
             border-left-color: #f44336;
         }
         
-        /* 卡片黑金風格 */
+        /* 最新認證成果、系統功能說明 */
         .card {
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             border: 1px solid #3a3a3a;
@@ -190,7 +206,7 @@
             border-bottom: 2px solid #d4af37;
             padding-bottom: 10px;
         }
-        
+        /* 登入表單 */
         .form-group {
             margin-bottom: 20px;
         }

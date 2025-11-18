@@ -45,7 +45,7 @@ include 'header.php';
 ?>
 
 <div class="card" style="max-width: 400px; margin: 0 auto;">
-    <h2>會員登入</h2>
+    <h2>系統登入</h2>
     
     <?php if ($error): ?>
         <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -55,7 +55,7 @@ include 'header.php';
         <div class="form-group">
             <label for="username">使用者名稱</label>
             <input type="text" id="username" name="username" required
-                   value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
+                value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
         </div>
         
         <div class="form-group">
