@@ -31,37 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_achievement'])) {
     }
 }
 
-// 處理編輯成果
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_achievement'])) {
-    $achievement_id = $_POST['achievement_id'] ?? 0;
-    $title = trim($_POST['title'] ?? '');
-    $description = trim($_POST['description'] ?? '');
-    
-    // 確認這是使用者自己的待審核項目
-    $stmt = $pdo->prepare("
-        SELECT id FROM achievements 
-        WHERE id = ? AND user_id = ? AND status = 'pending'
-    ");
-    $stmt->execute([$achievement_id, $user_id]);
-    
-    if (!$stmt->fetch()) {
-        $error = '無法編輯此項目';
-    } elseif (empty($title)) {
-        $error = '成果名稱不能為空';
-    } else {
-        $stmt = $pdo->prepare("
-            UPDATE achievements 
-            SET title = ?, description = ? 
-            WHERE id = ? AND user_id = ? AND status = 'pending'
-        ");
-        if ($stmt->execute([$title, $description, $achievement_id, $user_id])) {
-            $success = '成果更新成功';
-        } else {
-            $error = '更新失敗，請稍後再試';
-        }
-    }
-}
-
 // 處理刪除成果
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $achievement_id = $_GET['delete'];
@@ -151,13 +120,13 @@ include 'header.php';
         <div class="form-group">
             <label for="title">成果名稱 *</label>
             <input type="text" id="title" name="title" required 
-                   placeholder="例如：PHP程式設計、資訊安全技能競賽、TQC網頁設計認證">
+                    aria-autocomplete=""placeholder="例如：PHP程式設計、資訊安全技能競賽、TQC網頁設計認證">
         </div>
         
         <div class="form-group">
             <label for="description">詳細說明</label>
             <textarea id="description" name="description" 
-                      placeholder="描述您的成果內容、獲得的成績或心得"></textarea>
+                        placeholder="描述您的成果內容、獲得的成績或心得"></textarea>
         </div>
         
         <button type="submit" name="add_achievement" class="btn">新增成果</button>
@@ -215,8 +184,8 @@ include 'header.php';
                             <!-- 更新編輯和刪除連結路徑 -->
                             <a href="student_edit_achievement.php?id=<?php echo $item['id']; ?>" class="btn" style="padding: 5px 10px; font-size: 12px;">編輯</a>
                             <a href="?delete=<?php echo $item['id']; ?>" 
-                               onclick="return confirm('確定要刪除此項目嗎？');"
-                               class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">刪除</a>
+                                onclick="return confirm('確定要刪除此項目嗎？');"
+                                class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">刪除</a>
                         <?php else: ?>
                             <span style="color: #999; font-size: 12px;">無法編輯</span>
                         <?php endif; ?>

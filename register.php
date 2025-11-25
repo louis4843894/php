@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = '密碼至少需要6個字元';
     } elseif ($password !== $confirm_password) {
         $error = '兩次密碼輸入不一致';
+        /* filter_var驗證和過濾變數 */
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = '電子郵件格式不正確';
     } else {
@@ -69,6 +70,7 @@ include 'header.php';
     <?php endif; ?>
     
     <form method="POST" action="">
+        <!-- required 告訴瀏覽器，使用者在提交表單之前，必須在這個欄位中輸入一個值 -->
         <div class="form-group">
             <label for="username">使用者名稱 *</label>
             <input type="text" id="username" name="username" required 

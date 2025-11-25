@@ -51,13 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_photo'])) {
             // 建立上傳目錄
             $upload_dir = 'uploads/';
             if (!is_dir($upload_dir)) {
+                /* 0777 權限設定，表示最高權限 */
+                /* true	遞迴模式 (Recursive)，如果路徑是多層的（例如 assets/images/uploads/），設定為 true 允許程式一次建立所有缺失的父層目錄 */
                 mkdir($upload_dir, 0777, true);
             }
             
             // 產生唯一檔名
+            /* time()時間戳記 (Timestamp)。 這是從 1970 年 1 月 1 日到現在的總秒數。 */
             $new_filename = 'user_' . $user_id . '_' . time() . '.' . $filetype;
             $upload_path = $upload_dir . $new_filename;
             
+            /* 來源（暫存路徑）： 當使用者上傳檔案時，PHP 會先把它存在一個隨機命名的暫存檔中（例如 /tmp/php7A3b.tmp）。如果腳本結束前沒把這個檔案移走，PHP會自動刪除它。 */
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
                 // 更新資料庫
                 $stmt = $pdo->prepare("UPDATE users SET photo = ? WHERE id = ?");
@@ -97,11 +101,12 @@ include 'header.php';
     <?php if (!empty($user['photo'])): ?>
         <!-- 更新照片路徑 -->
         <img src="uploads/<?php echo htmlspecialchars($user['photo']); ?>" 
-             alt="個人照片" class="profile-photo">
+            alt="個人照片" class="profile-photo">
     <?php else: ?>
         <p style="color: #666;">尚未上傳照片</p>
     <?php endif; ?>
-    
+    <!-- enctype 編碼類型  -->
+    <!-- multipart/form-dat 瀏覽器不對字元進行編碼，將表單資料切分成多個區塊，這樣伺服器就能清楚區分：「這一段是使用者的姓名，那一段是圖片的原始資料」-->
     <form method="POST" action="" enctype="multipart/form-data">
         <div class="form-group">
             <label for="photo">上傳新照片</label>
@@ -123,13 +128,13 @@ include 'header.php';
         <div class="form-group">
             <label for="full_name">真實姓名 *</label>
             <input type="text" id="full_name" name="full_name" required
-                   value="<?php echo htmlspecialchars($user['full_name']); ?>">
+                value="<?php echo htmlspecialchars($user['full_name']); ?>">
         </div>
         
         <div class="form-group">
             <label for="email">電子郵件 *</label>
             <input type="email" id="email" name="email" required
-                   value="<?php echo htmlspecialchars($user['email']); ?>">
+                value="<?php echo htmlspecialchars($user['email']); ?>">
         </div>
         
         <div class="form-group">

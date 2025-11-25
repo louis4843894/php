@@ -57,7 +57,7 @@ include 'header.php';
 
 <div style="margin-bottom: 15px;">
     <!-- 更新返回連結路徑 -->
-    <a href="student_achievements.php">← 返回成果列表</a>
+    <a href="student_achievements.php" style="color: aliceblue;">← 返回成果列表</a>
 </div>
 
 <?php if ($error): ?>

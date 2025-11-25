@@ -13,7 +13,9 @@ if (isset($_GET['search'])) {
     $search_category = $_GET['category'] ?? '';
     
     // 建立查詢 - 以學生為單位分組
+            /* DISTINCT 確保沒有一模一樣的資料重複 */
     $sql = "SELECT DISTINCT u.id, u.username, u.full_name, u.photo, u.bio,
+            /* DISTINCT 合併多成果，同一個人只出現一次 */
             GROUP_CONCAT(DISTINCT a.title ORDER BY a.title SEPARATOR ', ') as achievements_list
             FROM users u
             INNER JOIN achievements a ON u.id = a.user_id
@@ -23,6 +25,7 @@ if (isset($_GET['search'])) {
     
     // 加入關鍵字搜尋
     if (!empty($search_keyword)) {
+        /* . 將新的 SQL 條件追加到原有的$sql後面 */
         $sql .= " AND (a.title LIKE ? OR a.description LIKE ? OR u.full_name LIKE ?)";
         $params[] = "%$search_keyword%";
         $params[] = "%$search_keyword%";
@@ -58,6 +61,8 @@ include 'header.php';
             <label>類別篩選</label>
             <select name="category">
                 <option value="">全部類別</option>
+                <!-- ? 如果前面的條件為 真 (True)，則執行後面的程式碼 -->
+                <!-- selected 表示這個選項是被選中的 -->
                 <option value="subject" <?php echo $search_category === 'subject' ? 'selected' : ''; ?>>擅長科目</option>
                 <option value="language" <?php echo $search_category === 'language' ? 'selected' : ''; ?>>程式語言</option>
                 <option value="competition" <?php echo $search_category === 'competition' ? 'selected' : ''; ?>>參與競賽</option>
@@ -109,9 +114,9 @@ include 'header.php';
                         <?php
                         // 取得該學生的詳細成果
                         $sql_details = "SELECT category, title, description 
-                                       FROM achievements 
-                                       WHERE user_id = ? AND status = 'approved'
-                                       ORDER BY category, title";
+                                        FROM achievements 
+                                        WHERE user_id = ? AND status = 'approved'
+                                        ORDER BY category, title";
                         $stmt_details = $pdo->prepare($sql_details);
                         $stmt_details->execute([$student['id']]);
                         $achievements = $stmt_details->fetchAll();
