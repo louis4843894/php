@@ -4,8 +4,7 @@ require_once 'config.php';
 
 // 檢查是否為管理員
 if (!isLoggedIn() || !isAdmin()) {
-    header('Location: login.php');
-    exit;
+    redirect('login.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review'])) {
@@ -25,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review'])) {
         } else {
             $_SESSION['error'] = '審核失敗，請稍後再試';
         }
-        header('Location: admin_review.php');
-        exit;
+        redirect('admin_review.php');
     }
 }
 
@@ -42,8 +40,7 @@ if (isset($_GET['id'])) {
     
     if (!$achievement) {
         $_SESSION['error'] = "找不到此成果！";
-        header('Location: admin_review.php');
-        exit;
+        redirect('admin_review.php');
     }
     
     $pageTitle = '審核成果 - 學生學習成果認證系統';
@@ -70,6 +67,7 @@ if (isset($_GET['id'])) {
             <p><strong>成果名稱：</strong><?php echo htmlspecialchars($achievement['title']); ?></p>
             <p><strong>描述：</strong></p>
             <div style="background: #0a0a0a; padding: 15px; border-radius: 6px; border-left: 4px solid #d4af37;">
+                <!-- nl2br 字串中的「換行符號 \n 」，轉換為HTML的「換行標籤 <br> ) -->
                 <?php echo nl2br(htmlspecialchars($achievement['description'] ?: '(無描述)')); ?>
             </div>
             <p style="margin-top: 15px;"><strong>提交時間：</strong><?php echo date('Y-m-d H:i:s', strtotime($achievement['created_at'])); ?></p>
@@ -141,8 +139,8 @@ $achievements = $stmt->fetchAll();
 
 // 統計數量
 $stmt = $pdo->query("
-    SELECT status, COUNT(*) as count 
-    FROM achievements 
+    SELECT status, COUNT(*) as count
+    FROM achievements
     GROUP BY status
 ");
 $stats = ['pending' => 0, 'approved' => 0, 'rejected' => 0];
@@ -214,7 +212,7 @@ include 'header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     $categories = [
                         'subject' => '擅長科目',
                         'language' => '程式語言',
@@ -228,7 +226,7 @@ include 'header.php';
                         'rejected' => '不通過'
                     ];
                     
-                    foreach ($achievements as $item): 
+                    foreach ($achievements as $item):
                     ?>
                     <tr>
                         <td>
@@ -239,12 +237,15 @@ include 'header.php';
                         <td><strong><?php echo htmlspecialchars($item['title']); ?></strong></td>
                         <td>
                             <?php if (!empty($item['description'])): ?>
+                                <!-- mb_substr 是算字數 (Character)，確保 50 就是 50 個完整的字 -->
+                                <!-- substr 是算位元組 (Byte)，ex.切到第50個位元組剛好是某個中文字的第1個位元組，就會變成亂碼 -->
                                 <?php echo htmlspecialchars(mb_substr($item['description'], 0, 50)); ?>
                                 <?php echo mb_strlen($item['description']) > 50 ? '...' : ''; ?>
                             <?php else: ?>
                                 <span style="color: #999;">無說明</span>
                             <?php endif; ?>
                         </td>
+                        <!-- white-space 保留(pre-wrap)還是吃掉空白(nowrap) -->
                         <td style="white-space: nowrap;">
                             <span class="badge badge-<?php echo $item['status']; ?>">
                                 <?php echo $status_labels[$item['status']] ?? $item['status']; ?>
@@ -252,7 +253,6 @@ include 'header.php';
                         </td>
                         <td><?php echo date('Y-m-d H:i', strtotime($item['created_at'])); ?></td>
                         <td>
-                            <!-- 改為詳細審核按鈕 -->
                             <a href="admin_review.php?id=<?php echo $item['id']; ?>" class="btn btn-small btn-warning" style="text-align: center; white-space: nowrap;">
                                 審核
                             </a>

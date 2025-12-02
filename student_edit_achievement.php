@@ -83,7 +83,7 @@ include 'header.php';
         <div class="form-group">
             <label for="title">成果名稱 *</label>
             <input type="text" id="title" name="title" required 
-                   value="<?php echo htmlspecialchars($achievement['title']); ?>">
+                    value="<?php echo htmlspecialchars($achievement['title']); ?>">
         </div>
         
         <div class="form-group">

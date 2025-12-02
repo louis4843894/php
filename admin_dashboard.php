@@ -5,8 +5,7 @@ require_once 'config.php';
 
 // 檢查是否為管理員
 if (!isLoggedIn() || !isAdmin()) {
-    header('Location: login.php');
-    exit;
+    redirect('login.php');
 }
 
 // 取得詳細統計
@@ -102,7 +101,7 @@ include 'header.php';
                     'competition' => '參與競賽',
                     'certificate' => '取得證照'
                 ];
-                foreach ($category_stats as $stat): 
+                foreach ($category_stats as $stat):
                 ?>
                 <tr>
                     <td><?php echo $categories[$stat['category']]; ?></td>
